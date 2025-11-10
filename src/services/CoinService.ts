@@ -21,9 +21,10 @@ export class CoinService extends HttpService{
         return this.get(coinUrl);
     }
 
-    async getCoinChart(id:string){
-        const chartUrl= `/${id}/market_chart?vs_currency=usd&days=1`;
-        return this.get(chartUrl);
+    async getAllCoins(){
+        const coinsUrl= `/markets?vs_currency=usd&per-page=250&page=5&price_change_percentage=1h,24h,7d&sparkline=true`;
+        console.log("all coins")
+        return this.get(coinsUrl);
     }
 
     async getCoinHistory(id:string){

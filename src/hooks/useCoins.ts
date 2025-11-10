@@ -7,3 +7,11 @@ export const useCoins =() =>{
         queryFn: () => coinService.getCoinsList(),
     })
 }
+
+export const useAllCoins =() =>{
+    console.log("in all coins")
+    return useQuery({
+        queryKey:['allCoins'],
+        queryFn: () => coinService.getAllCoins(),
+    })
+}

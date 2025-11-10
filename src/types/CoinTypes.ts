@@ -10,3 +10,7 @@ export type CoinType = {
     volume_24h:string
     market_cap: string
 }
+
+export type FiltersProps = {
+    onFilter: (type: string, low?: number, high?: number) => void;
+};

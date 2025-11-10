@@ -1,12 +1,12 @@
 import './App.css'
-import {CoinTable} from './components/CoinTable'
+import {MainPage} from './components/MainPage'
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 function App() {
   const queryClient = new QueryClient();
   return (
     <QueryClientProvider client = {queryClient}>
-      <CoinTable/>
+      <MainPage/>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   )
