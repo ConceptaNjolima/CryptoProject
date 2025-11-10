@@ -6,11 +6,12 @@ export class HttpService {
 
     async get(url:string, config = {}){
         try{
-
-            await this.client.get(url);
+            console.log("using in httpService", url)
+            const response = await this.client.get(url);
+            return response;
         }
         catch(error){
-            alert("Failed to fetch coin")
+            // alert("Failed to fetch coin")
             console.log("Error fetching coin:", error);
             throw error;
         }
