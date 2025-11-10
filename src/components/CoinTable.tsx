@@ -4,7 +4,7 @@ import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons"
 import { LineChart, Line } from "recharts";
 import { Coin } from "./Coin";
 
-export const CoinTable =({CoinData}:any) =>{
+export const CoinTable =({CoinData,isLoading}:any) =>{
     let idToDisplay=0;
     const getChartData =(data:any) =>{
         const chartData = data.map((value:number, index:number) => ({ index, value }))
@@ -32,7 +32,7 @@ export const CoinTable =({CoinData}:any) =>{
                         </tr>
                     </thead>
                     <tbody>
-                        {CoinData.map((coinInfo:any) =>
+                        {!isLoading && CoinData.map((coinInfo:any) =>
                         (
                             <tr key={coinInfo.id} className="border border-gray-300 dark:border-gray-600">
                                 <td className="p-5 w-1/10"><FontAwesomeIcon icon={faStarRegular}/></td>
@@ -66,7 +66,7 @@ export const CoinTable =({CoinData}:any) =>{
                                     currency:"USD",
                                     minimumFractionDigits:0,
                                     maximumFractionDigits:0
-                                }).format(coinInfo.total_volume*coinInfo.high_24h)}</td>
+                                }).format(coinInfo.total_volume)}</td>
                                 <td className="p-5 w-1/10">{new Intl.NumberFormat("en-US",{
                                     style:"currency",
                                     currency:"USD",

@@ -21,8 +21,19 @@ export class CoinService extends HttpService{
         return this.get(coinUrl);
     }
 
-    async getAllCoins(){
-        const coinsUrl= `/markets?vs_currency=usd&per-page=250&page=5&price_change_percentage=1h,24h,7d&sparkline=true`;
+    async getAllCoins(filters:any){
+        console.log("before get all coins",filters)
+        let coinsUrl= `/markets?vs_currency=usd&per-page=250&page=5&price_change_percentage=1h,24h,7d&sparkline=true`;
+        if(filters?.sortBy){
+            console.log("sorting")
+            coinsUrl+=`&order=${filters.sortBy}`
+        }
+        console.log("after get all coins",filters)
+        return this.get(coinsUrl);
+    }
+
+    async getSortedCoins(sortedBy:string){
+        const coinsUrl= `/markets?order=${sortedBy}&vs_currency=usd&per_page=250&page=5&price_change_percentage=1h,24h,7d&sparkline=true`;
         console.log("all coins")
         return this.get(coinsUrl);
     }

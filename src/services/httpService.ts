@@ -8,7 +8,7 @@ export class HttpService {
         try{
             console.log("using in httpService", url)
             const response = await this.client.get(url);
-            return response;
+            return response.data;
         }
         catch(error){
             // alert("Failed to fetch coin")
