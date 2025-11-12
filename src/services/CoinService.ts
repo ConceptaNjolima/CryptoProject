@@ -1,5 +1,6 @@
 import { httpClient } from "./HttpClient";
 import { HttpService } from "./httpService";
+import type{ CoinType } from "../types/CoinTypes";
 
 export class CoinService extends HttpService{
     constructor(){
@@ -23,13 +24,20 @@ export class CoinService extends HttpService{
 
     async getAllCoins(filters:any){
         console.log("before get all coins",filters)
-        let coinsUrl= `/markets?vs_currency=usd&per-page=250&page=5&price_change_percentage=1h,24h,7d&sparkline=true`;
+        let coinsUrl= `/markets?vs_currency=usd&per_page=250&page=5&price_change_percentage=1h,24h,7d&sparkline=true`;
         if(filters?.sortBy){
             console.log("sorting")
             coinsUrl+=`&order=${filters.sortBy}`
         }
-        console.log("after get all coins",filters)
-        return this.get(coinsUrl);
+        const response = await this.get(coinsUrl);
+        const responseData = response?.data || response;
+        console.log("responseData", responseData)
+        let dataToReturn = responseData;
+        if (filters?.filterType=="byPrice"){
+            dataToReturn = responseData?.filter((coin:any) => Number(coin.current_price) >= filters.lowerFilterValue && Number(coin.current_price) <= filters.upperFilterValue);
+            console.log("filtered by price", dataToReturn)
+        }
+        return dataToReturn;
     }
 
     async getSortedCoins(sortedBy:string){

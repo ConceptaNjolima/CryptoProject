@@ -7,8 +7,10 @@ export const Coins = (CoinData:any) => {
     // TO DO: Use the full list of coins for filtering
     console.log("allCoins CoinData", CoinData)
     const [filters, setFilters] = useState({
-        sortBy:'volume_asc',
-        filterType:''
+        sortBy:'',
+        filterType:'',
+        lowerFilterValue:0,
+        upperFilterValue:Infinity
     });
     console.log("filters", filters)
     const {data, isError, isLoading} = useAllCoins(filters);
