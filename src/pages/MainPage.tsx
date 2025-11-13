@@ -1,15 +1,13 @@
 import { useCoins } from "../hooks/useCoins"
 import { Coins } from "../components/Coins";
+import { LoadingPage } from "./LoadingPage";
 
-export const MainPage =() =>{
-    // const serverStatus = usePing();
-    // console.log("ping:",serverStatus);
-    const {data, isLoading} = useCoins();
-    console.log("Loading", isLoading)
+export const MainPage = () => {
+    const { isLoading } = useCoins();
 
-    if (isLoading) return <div>Loading</div>
+    if (isLoading) return <LoadingPage/>
     
     return (
-        <Coins CoinData={data.data}/>
+        <Coins />
     )
 }

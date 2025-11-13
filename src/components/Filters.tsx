@@ -1,132 +1,121 @@
-import React, { useState } from 'react';
-import { useSortedCoins } from '../hooks/useCoins';
+import React from 'react';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
+import type { FiltersProps } from '../types/CoinTypes';
 
 const valuetext = (value: number) => {
-  return `$${value}`;
+    return `$${value}`;
 }
 
-const FiltersSkeleton=() =>{
+const FiltersSkeleton = () => {
     return (
-    <aside className="flex-1/4 p-3 bg-white shadow animate-pulse">
-        <div className='mb-4'>
-            <div className='h-6 bg-gray-300 dark:bg-gray-600 rounded w-24 mb-3'></div>
-            <div className='h-10 bg-gray-200 dark:bg-gray-700 rounded w-full'></div>
-        </div>
-        
-        {Array(3).fill(0).map((_, i)=>(
-            <div key={i} className='mb-6 pb-4 border-b border-gray-200 dark:border-gray-700'>
-                <div className='h-5 bg-gray-300 dark:bg-gray-600 rounded w-32 mb-3'></div>
-                <div className='mb-4'>
-                    <div className='h-2 bg-gray-200 dark:bg-gray-700 rounded mb-2'></div>
-                    <div className='flex justify-between'>
-                        <div className='h-4 bg-gray-200 dark:bg-gray-700 rounded w-12'></div>
-                        <div className='h-4 bg-gray-200 dark:bg-gray-700 rounded w-12'></div>
-                    </div>
-                </div>
+        <aside className="flex-1/4 p-3 bg-white shadow animate-pulse">
+            <div className='mb-4'>
+                <div className='h-6 bg-gray-300 dark:bg-gray-600 rounded w-24 mb-3'></div>
                 <div className='h-10 bg-gray-200 dark:bg-gray-700 rounded w-full'></div>
             </div>
-        ))}
-        
-        <div className='pt-4 border-t border-gray-200 dark:border-gray-700'>
-            <div className='h-5 bg-gray-300 dark:bg-gray-600 rounded w-32 mb-3'></div>
-            <div className='h-10 bg-gray-200 dark:bg-gray-700 rounded w-full mb-2'></div>
-            <div className='h-10 bg-gray-200 dark:bg-gray-700 rounded w-full'></div>
-        </div>
-    </aside>
+
+            {Array(3).fill(0).map((_, i) => (
+                <div key={i} className='mb-6 pb-4 border-b border-gray-200 dark:border-gray-700'>
+                    <div className='h-5 bg-gray-300 dark:bg-gray-600 rounded w-32 mb-3'></div>
+                    <div className='mb-4'>
+                        <div className='h-2 bg-gray-200 dark:bg-gray-700 rounded mb-2'></div>
+                        <div className='flex justify-between'>
+                            <div className='h-4 bg-gray-200 dark:bg-gray-700 rounded w-12'></div>
+                            <div className='h-4 bg-gray-200 dark:bg-gray-700 rounded w-12'></div>
+                        </div>
+                    </div>
+                    <div className='h-10 bg-gray-200 dark:bg-gray-700 rounded w-full'></div>
+                </div>
+            ))}
+
+            <div className='pt-4 border-t border-gray-200 dark:border-gray-700'>
+                <div className='h-5 bg-gray-300 dark:bg-gray-600 rounded w-32 mb-3'></div>
+                <div className='h-10 bg-gray-200 dark:bg-gray-700 rounded w-full mb-2'></div>
+                <div className='h-10 bg-gray-200 dark:bg-gray-700 rounded w-full'></div>
+            </div>
+        </aside>
     )
 }
-export const Filters = ({onFilter, isLoading}:any) => {
-    // const [lowValue, setLowValue] = useState<string>('');
-    // const [highValue, setHighValue] = useState<string>('');
+export const Filters = ({ onFilter, isLoading }: FiltersProps) => {
+    const [priceValue, setPriceValue] = React.useState<number[]>([10, 100]);
+    const [volumeValue, setVolumeValue] = React.useState<number[]>([10, 100]);
+    const [marketCapValue, setMarketCapValue] = React.useState<number[]>([10, 100]);
 
-    const handleSort = (colName:string)=>{
-            const {data} = useSortedCoins(colName)
-            console.log(data)
-    }
-
-    const [priceValue, setPriceValue] = React.useState<number[]>([10, 50]);
-    const [volumeValue, setVolumeValue] = React.useState<number[]>([10, 50]);
-    const [marketCapValue, setMarketCapValue] = React.useState<number[]>([10, 50]);
-
-    const handlePriceFilterChange = (event: Event, newValue: number[]) => {
-        console.log("filter values", newValue)
+    const handlePriceFilterChange = (newValue: number[]) => {
         setPriceValue(newValue);
     };
-    const handleVolumeFilterChange = (event: Event, newValue: number[]) => {
-        console.log("filter values", newValue)
+    const handleVolumeFilterChange = (newValue: number[]) => {
         setVolumeValue(newValue);
     };
-    const handleMarketCapFilterChange = (event: Event, newValue: number[]) => {
-        console.log("filter values", newValue)
+    const handleMarketCapFilterChange = (newValue: number[]) => {
         setMarketCapValue(newValue);
     };
 
-    if(isLoading){
-        return <FiltersSkeleton/>
+    if (isLoading) {
+        return <FiltersSkeleton />
     }
 
     return (
-            <aside className="flex-1/4 p-3 bg-white">
-                <h3 className='text-lg font-semibold'>Filters</h3>
-                <div className='md-4'>
-                    <button className="block w-full mb-1 p-2 bg-gray-200 rounded hover:bg-gray-300" onClick={()=>onFilter({})}>Reset filters</button>
+        <aside className="p-3 bg-white">
+            <h3 className='text-lg font-semibold'>Filters</h3>
+            <div className='md-4'>
+                <button className="block w-full mb-1 p-2 bg-gray-200 rounded hover:bg-gray-300" onClick={() => onFilter((prev) => ({ ...prev, filterType: "" }))}>Reset filters</button>
+            </div>
+            <div>
+                <div>
+                    <em className='float-left'>By Price</em>
+                    <Box sx={{ width: 300 }}>
+                        <Slider
+                            getAriaLabel={() => 'Filter by price'}
+                            value={priceValue}
+                            onChange={handlePriceFilterChange as any}
+                            valueLabelDisplay="auto"
+                            getAriaValueText={valuetext}
+                            min={0}
+                            max={10000}
+                        />
+                    </Box>
+                    <button className="block w-full mb-1 p-2 bg-gray-200 rounded hover:bg-gray-300" type="submit" onClick={() => onFilter((prev: any) => ({ ...prev, filterType: "byPrice", lowerPriceFilterValue: priceValue[0], upperPriceFilterValue: priceValue[1] }))} >Filter By Price</button>
                 </div>
                 <div>
-                    <div>
-                        <em className='float-left'>By Price</em>
-                        <Box sx={{ width: 300 }}>
-                            <Slider
-                                getAriaLabel={() => 'Filter by price'}
-                                value={priceValue}
-                                onChange={handlePriceFilterChange}
-                                valueLabelDisplay="auto"
-                                getAriaValueText={valuetext}
-                                min={0}
-                                max={10000}
-                            />
-                        </Box>
-                        <button className="block w-full mb-1 p-2 bg-gray-200 rounded hover:bg-gray-300" type="submit" onClick={()=>onFilter((prev:any)=>({...prev, filterType: "byPrice", lowerPriceFilterValue:priceValue[0], upperPriceFilterValue:priceValue[1]}))} >Filter By Price</button>
-                    </div>
-                    <div>
-                        <em className='float-left'>By Volume</em>
-                        <Box sx={{ width: 300 }}>
-                            <Slider
-                                getAriaLabel={() => 'Filter by price'}
-                                value={volumeValue}
-                                onChange={handleVolumeFilterChange}
-                                valueLabelDisplay="auto"
-                                getAriaValueText={valuetext}
-                                min={5000}
-                                step={5000}
-                                max={100000}
-                            />
-                        </Box>
-                        <button className="block w-full mb-1 p-2 bg-gray-200 rounded hover:bg-gray-300" type="submit" onClick={()=>onFilter((prev:any)=>({...prev, filterType: "byVolume", lowerVolumeFilterValue:priceValue[0], upperVolumeFilterValue:priceValue[1]}))} >Filter By Volume</button>
-                    </div>
-                                        <div>
-                        <em className='float-left'>By MarketCap</em>
-                        <Box sx={{ width: 300 }}>
-                            <Slider
-                                getAriaLabel={() => 'Filter by price'}
-                                value={marketCapValue}
-                                onChange={handleMarketCapFilterChange}
-                                valueLabelDisplay="auto"
-                                getAriaValueText={valuetext}
-                                min={100000}
-                                step={100000}
-                                max={1000000}
-                            />
-                        </Box>
-                        <button className="block w-full mb-1 p-2 bg-gray-200 rounded hover:bg-gray-300" type="submit" onClick={()=>onFilter((prev:any)=>({...prev, filterType: "byMarketCap", lowerMarketCapFilterValue:priceValue[0], upperMarketCapFilterValue:priceValue[1]}))} >Filter By Market Cap</button>
-                    </div>       
+                    <em className='float-left'>By Volume</em>
+                    <Box sx={{ width: 300 }}>
+                        <Slider
+                            getAriaLabel={() => 'Filter by Volume'}
+                            value={volumeValue}
+                            onChange={handleVolumeFilterChange as any}
+                            valueLabelDisplay="auto"
+                            getAriaValueText={valuetext}
+                            min={5000}
+                            step={5000}
+                            max={100000}
+                        />
+                    </Box>
+                    <button className="block w-full mb-1 p-2 bg-gray-200 rounded hover:bg-gray-300" type="submit" onClick={() => onFilter((prev: any) => ({ ...prev, filterType: "byVolume", lowerVolumeFilterValue: volumeValue[0], upperVolumeFilterValue: volumeValue[1] }))} >Filter By Volume</button>
                 </div>
                 <div>
-                    <em className='float-left'>By 24 hr Trend</em>
-                    <button className="block w-full mb-1 p-2 bg-gray-200 rounded hover:bg-gray-300" type="submit" onClick = {()=>onFilter((prev:any)=>({...prev, filterType:"Gainers24hr"}))}>Filter By 24 hr Increase</button>
-                    <button className="block w-full mb-1 p-2 bg-gray-200 rounded hover:bg-gray-300" type="submit" onClick = {()=>onFilter((prev:any)=>({...prev, filterType:"Losers24hr"}))}>Filter By 24 hr Decrease</button>
+                    <em className='float-left'>By MarketCap</em>
+                    <Box sx={{ width: 300 }}>
+                        <Slider
+                            getAriaLabel={() => 'Filter by MarketCap'}
+                            value={marketCapValue}
+                            onChange={handleMarketCapFilterChange as any}
+                            valueLabelDisplay="auto"
+                            getAriaValueText={valuetext}
+                            min={100000}
+                            step={100000}
+                            max={1000000}
+                        />
+                    </Box>
+                    <button className="block w-full mb-1 p-2 bg-gray-200 rounded hover:bg-gray-300" type="submit" onClick={() => onFilter((prev: any) => ({ ...prev, filterType: "byMarketCap", lowerMarketCapFilterValue: marketCapValue[0], upperMarketCapFilterValue: marketCapValue[1] }))} >Filter By Market Cap</button>
                 </div>
-            </aside>
+            </div>
+            <div>
+                <em className='float-left'>By 24 hr Trend</em>
+                <button className="block w-full mb-1 p-2 bg-gray-200 rounded hover:bg-gray-300" type="submit" onClick={() => onFilter((prev: any) => ({ ...prev, filterType: "Gainers24hr" }))}>Filter By 24 hr Increase</button>
+                <button className="block w-full mb-1 p-2 bg-gray-200 rounded hover:bg-gray-300" type="submit" onClick={() => onFilter((prev: any) => ({ ...prev, filterType: "Losers24hr" }))}>Filter By 24 hr Decrease</button>
+            </div>
+        </aside>
     )
 }

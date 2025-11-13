@@ -1,25 +1,16 @@
 import { coinService } from "../services/CoinService"
 import { useQuery } from "@tanstack/react-query"
 
-export const useCoins =() =>{
+export const useCoins = () => {
     return useQuery({
-        queryKey:['coins'],
-        queryFn: () => coinService.getCoinsList(),
+        queryKey: ['coins'],
+        queryFn: () => coinService.getAllCoins({}),
     })
 }
 
-export const useAllCoins =(filters:any) =>{
-    console.log("in all coins", filters)
+export const useAllCoins = (filters: any) => {
     return useQuery({
-        queryKey:['allCoins', filters],
+        queryKey: ['allCoins', filters],
         queryFn: () => coinService.getAllCoins(filters),
-    })
-}
-
-export const useSortedCoins =(sortedBy:string) =>{
-    console.log("in all sorted coins")
-    return useQuery({
-        queryKey:['allCoins'],
-        queryFn: () => coinService.getSortedCoins(sortedBy),
     })
 }

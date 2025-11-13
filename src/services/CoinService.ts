@@ -7,21 +7,6 @@ export class CoinService extends HttpService{
         super(httpClient)
     }
 
-    async getServerStatus(){
-        const statusUrl ="ping";
-        return this.get(statusUrl);
-    }
-
-    async getCoinsList(){
-        const marketUrl = "markets?vs_currency=usd&per-page=100&page=1&price_change_percentage=1h,24h,7d&sparkline=true";
-        return this.get(marketUrl);
-    }
-
-    async getCoinById(id:string){
-        const coinUrl = `/${id}`;
-        return this.get(coinUrl);
-    }
-
     async getAllCoins(filters:any){
         console.log("before get all coins",filters)
         let coinsUrl= `/markets?vs_currency=usd&price_change_percentage=1h,24h,7d&sparkline=true`;
@@ -38,7 +23,7 @@ export class CoinService extends HttpService{
             console.log("filtered by price", dataToReturn)
         }
         if (filters?.filterType=="byVolume"){
-            dataToReturn = responseData?.filter((coin:CoinType) => Number(coin.volume_24h) >= filters.lowerVolumeFilterValue && Number(coin.volume_24h) <= filters.upperVolumeFilterValue);
+            dataToReturn = responseData?.filter((coin:CoinType) => Number(coin.total_volume) >= filters.lowerVolumeFilterValue && Number(coin.total_volume) <= filters.upperVolumeFilterValue);
             console.log("filtered by Volume", dataToReturn)
         }
         if (filters?.filterType=="byMarketCap"){
@@ -54,23 +39,6 @@ export class CoinService extends HttpService{
             console.log("filtered by MarketCap", dataToReturn)
         }
         return dataToReturn;
-    }
-
-    async getSortedCoins(sortedBy:string){
-        const coinsUrl= `/markets?order=${sortedBy}&vs_currency=usd&per_page=250&page=5&price_change_percentage=1h,24h,7d&sparkline=true`;
-        console.log("all coins")
-        return this.get(coinsUrl);
-    }
-
-    async getCoinHistory(id:string){
-        const historicalUrl= `/aave/history?date=30-12-2024/localization=false`;
-        console.log("using", historicalUrl)
-        return this.get(historicalUrl);
-    }
-
-    async getCoinHistoricalChart(id:string){
-        const historicalChartUrl= `/${id}/market_chart?vs_currency=usd&days=7&interval=daily`;
-        return this.get(historicalChartUrl);
     }
 }
 
