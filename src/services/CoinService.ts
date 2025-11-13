@@ -24,18 +24,34 @@ export class CoinService extends HttpService{
 
     async getAllCoins(filters:any){
         console.log("before get all coins",filters)
-        let coinsUrl= `/markets?vs_currency=usd&per_page=250&page=5&price_change_percentage=1h,24h,7d&sparkline=true`;
+        let coinsUrl= `/markets?vs_currency=usd&price_change_percentage=1h,24h,7d&sparkline=true`;
         if(filters?.sortBy){
             console.log("sorting")
             coinsUrl+=`&order=${filters.sortBy}`
         }
         const response = await this.get(coinsUrl);
-        const responseData = response?.data || response;
+        const responseData = response;
         console.log("responseData", responseData)
         let dataToReturn = responseData;
         if (filters?.filterType=="byPrice"){
-            dataToReturn = responseData?.filter((coin:any) => Number(coin.current_price) >= filters.lowerFilterValue && Number(coin.current_price) <= filters.upperFilterValue);
+            dataToReturn = responseData?.filter((coin:CoinType) => Number(coin.current_price) >= filters.lowerPriceFilterValue && Number(coin.current_price) <= filters.upperPriceFilterValue);
             console.log("filtered by price", dataToReturn)
+        }
+        if (filters?.filterType=="byVolume"){
+            dataToReturn = responseData?.filter((coin:CoinType) => Number(coin.volume_24h) >= filters.lowerVolumeFilterValue && Number(coin.volume_24h) <= filters.upperVolumeFilterValue);
+            console.log("filtered by Volume", dataToReturn)
+        }
+        if (filters?.filterType=="byMarketCap"){
+            dataToReturn = responseData?.filter((coin:CoinType) => Number(coin.market_cap) >= filters.lowerMarketCapFilterValue && Number(coin.market_cap) <= filters.upperMarketCapFilterValue);
+            console.log("filtered by MarketCap", dataToReturn)
+        }
+        if (filters?.filterType=="Gainers24hr"){
+            dataToReturn = responseData?.filter((coin:CoinType)=>Number(coin.price_change_percentage_24h_in_currency)>0);
+            console.log("filtered by MarketCap", dataToReturn)
+        }
+        if (filters?.filterType=="Losers24hr"){
+            dataToReturn = responseData?.filter((coin:CoinType)=>Number(coin.price_change_percentage_24h_in_currency)<0);
+            console.log("filtered by MarketCap", dataToReturn)
         }
         return dataToReturn;
     }

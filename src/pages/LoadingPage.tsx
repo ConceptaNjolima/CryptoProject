@@ -1,0 +1,15 @@
+export const LoadingPage = ()=>{
+  return (
+    <div className="flex items-center justify-center h-screen bg-gray-100">
+      <div className="text-center">
+        {/* Spinner */}
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-solid mx-auto"></div>
+        
+        {/* Loading Text */}
+        <p className="mt-4 text-lg font-semibold text-gray-700">
+          Loading data, please wait...
+        </p>
+      </div>
+    </div>
+  );
+}

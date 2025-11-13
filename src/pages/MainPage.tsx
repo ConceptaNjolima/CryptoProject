@@ -1,5 +1,5 @@
 import { useCoins } from "../hooks/useCoins"
-import { Coins } from "./Coins";
+import { Coins } from "../components/Coins";
 
 export const MainPage =() =>{
     // const serverStatus = usePing();

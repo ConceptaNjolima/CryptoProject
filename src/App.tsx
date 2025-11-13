@@ -1,5 +1,5 @@
 import './App.css'
-import {MainPage} from './components/MainPage'
+import {MainPage} from './pages/MainPage'
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 function App() {
