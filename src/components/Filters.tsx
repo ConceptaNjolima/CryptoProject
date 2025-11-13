@@ -42,13 +42,13 @@ export const Filters = ({ onFilter, isLoading }: FiltersProps) => {
     const [volumeValue, setVolumeValue] = React.useState<number[]>([10, 100]);
     const [marketCapValue, setMarketCapValue] = React.useState<number[]>([10, 100]);
 
-    const handlePriceFilterChange = (newValue: number[]) => {
+    const handlePriceFilterChange = (e:Event, newValue: number[]) => {
         setPriceValue(newValue);
     };
-    const handleVolumeFilterChange = (newValue: number[]) => {
+    const handleVolumeFilterChange = (e: Event, newValue: number[]) => {
         setVolumeValue(newValue);
     };
-    const handleMarketCapFilterChange = (newValue: number[]) => {
+    const handleMarketCapFilterChange = (e: Event, newValue: number[]) => {
         setMarketCapValue(newValue);
     };
 
@@ -69,7 +69,7 @@ export const Filters = ({ onFilter, isLoading }: FiltersProps) => {
                         <Slider
                             getAriaLabel={() => 'Filter by price'}
                             value={priceValue}
-                            onChange={handlePriceFilterChange as any}
+                            onChange={handlePriceFilterChange}
                             valueLabelDisplay="auto"
                             getAriaValueText={valuetext}
                             min={0}
@@ -88,8 +88,8 @@ export const Filters = ({ onFilter, isLoading }: FiltersProps) => {
                             valueLabelDisplay="auto"
                             getAriaValueText={valuetext}
                             min={5000}
-                            step={5000}
-                            max={100000}
+                            step={10000}
+                            max={1000000}
                         />
                     </Box>
                     <button className="block w-full mb-1 p-2 bg-gray-200 rounded hover:bg-gray-300" type="submit" onClick={() => onFilter((prev: any) => ({ ...prev, filterType: "byVolume", lowerVolumeFilterValue: volumeValue[0], upperVolumeFilterValue: volumeValue[1] }))} >Filter By Volume</button>
