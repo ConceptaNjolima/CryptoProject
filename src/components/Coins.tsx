@@ -19,7 +19,7 @@ export const Coins = () => {
     const { data, isLoading } = useAllCoins(filters);
 
     return (
-        <div className="flex flex-row gap-4 p-4">
+        <div className="flex flex-row gap-4 p-4 bg-white dark:bg-gray-800">
             <Suspense fallback={<LoadingPage/>}>
                 <Filters onFilter={setFilters} isLoading={isLoading}/>
                 <CoinTable CoinData={data} isLoading={isLoading} onSort={setFilters}/>

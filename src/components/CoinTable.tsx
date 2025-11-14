@@ -84,7 +84,7 @@ export const CoinTable = ({ CoinData, isLoading, onSort }: any) => {
         setIsMarketCapDown(!isMarketCapDown)
         onSort((prev: any) => ({ ...prev, sortBy: type }))
     }
-    console.log("CoinTable", CoinData)
+
     if (isLoading) {
         return <CoinsTableSkeleton />
     }
@@ -106,11 +106,10 @@ export const CoinTable = ({ CoinData, isLoading, onSort }: any) => {
                         <th className="px-2 py-3 text-left text-xs font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wide">★</th>
                         <th className="px-2 py-3 text-left text-xs font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wide">#</th>
                         <th className="px-7 py-3 text-left text-xs font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wide">Coin</th>
-                        {/* <th className="px-2 py-3 text-center text-xs font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wide"></th> */}
+                        <th className="px-2 py-3 text-center text-xs font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wide"></th>
                         <th className="px-2 py-3 text-right text-xs font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wide cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                            <span onClick={() => handlePriceSortClick("current_price_asc")} className="flex items-center justify-end gap-1">
+                            <span className="flex items-center justify-end gap-1">
                                 Price
-                                <FontAwesomeIcon icon={isPriceDown ? faCaretDown : faCaretUp} size="sm" />
                             </span>
                         </th>
                         <th className="px-2 py-3 text-right text-xs font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wide">1h %</th>
@@ -142,11 +141,11 @@ export const CoinTable = ({ CoinData, isLoading, onSort }: any) => {
                             <td className="px-4 py-3 w-80">
                                 <Coin {...coinInfo} />
                             </td>
-                            {/* <td className="px-2 py-3 text-center">
-                                <button className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white text-xs font-semibold rounded-full transition-colors duration-200">
+                            <td className="px-2 py-3 text-center">
+                                <button className="px-3 py-1 bg-white border-green-700 dark:bg-gray-500 hover:bg-green-400 dark:text-white text-green-600 text-xs font-semibold rounded-full transition-colors duration-200">
                                     Buy
                                 </button>
-                            </td> */}
+                            </td>
                             <td className="px-2 py-3 text-right font-bold text-gray-900 dark:text-gray-100">{new Intl.NumberFormat("en-US", {
                                 style: "currency",
                                 currency: "USD",

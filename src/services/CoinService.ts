@@ -20,23 +20,18 @@ export class CoinService extends HttpService{
         let dataToReturn = responseData;
         if (filters?.filterType=="byPrice"){
             dataToReturn = responseData?.filter((coin:CoinType) => Number(coin.current_price) >= filters.lowerPriceFilterValue && Number(coin.current_price) <= filters.upperPriceFilterValue);
-            console.log("filtered by price", dataToReturn)
         }
         if (filters?.filterType=="byVolume"){
             dataToReturn = responseData?.filter((coin:CoinType) => Number(coin.total_volume) >= filters.lowerVolumeFilterValue && Number(coin.total_volume) <= filters.upperVolumeFilterValue);
-            console.log("filtered by Volume", dataToReturn)
         }
         if (filters?.filterType=="byMarketCap"){
             dataToReturn = responseData?.filter((coin:CoinType) => Number(coin.market_cap) >= filters.lowerMarketCapFilterValue && Number(coin.market_cap) <= filters.upperMarketCapFilterValue);
-            console.log("filtered by MarketCap", dataToReturn)
         }
         if (filters?.filterType=="Gainers24hr"){
             dataToReturn = responseData?.filter((coin:CoinType)=>Number(coin.price_change_percentage_24h_in_currency)>0);
-            console.log("filtered by MarketCap", dataToReturn)
         }
         if (filters?.filterType=="Losers24hr"){
             dataToReturn = responseData?.filter((coin:CoinType)=>Number(coin.price_change_percentage_24h_in_currency)<0);
-            console.log("filtered by MarketCap", dataToReturn)
         }
         return dataToReturn;
     }
