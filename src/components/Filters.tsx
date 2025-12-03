@@ -104,8 +104,8 @@ export const Filters = ({ onFilter, isLoading }: FiltersProps) => {
                             valueLabelDisplay="auto"
                             getAriaValueText={valuetext}
                             min={1000000}
-                            step={1000000}
-                            max={100000000000}
+                            step={100000}
+                            max={100000000}
                         />
                     </Box>
                     <button className="block w-full mb-1 p-2 bg-gray-200 rounded hover:bg-gray-300" type="submit" onClick={() => onFilter((prev: any) => ({ ...prev, filterType: "byMarketCap", lowerMarketCapFilterValue: marketCapValue[0], upperMarketCapFilterValue: marketCapValue[1] }))} >Filter By Market Cap</button>
