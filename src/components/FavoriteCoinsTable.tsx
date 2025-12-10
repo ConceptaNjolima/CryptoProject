@@ -1,22 +1,11 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons"
-import { faStar as faStarSolid } from "@fortawesome/free-solid-svg-icons"
 import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons"
-import { LineChart, Line } from "recharts";
 import { Coin } from "./Coin";
-import { useState, use } from "react";
 import { FavoriteContext } from "../context/FavoriteContext";
-import type { CoinType } from "../types/CoinTypes";
+import type { FavoriteCoinTableProps, CoinType } from '../types/CoinTypes';
+import { use } from "react";
 
-const getStroke = (changeIn7day: number) => {
-    let strokeColor: string = "#82ca9d";
-    if (Number(changeIn7day) <= 0) {
-        strokeColor = "#FF0000"
-    }
-    return strokeColor
-}
-
-const CoinsTableSkeleton = () => {
+const FavoriteCoinsTableSkeleton = () => {
     return (
         <div className="shadow animate-pulse">
             <table className="table-auto md:table-fixed w-full">
@@ -62,58 +51,33 @@ const CoinsTableSkeleton = () => {
     )
 
 }
-import type { CoinTableProps, ChartDataPoint } from '../types/CoinTypes';
 
-export const CoinTable = ({ CoinData, isLoading, onSort }: CoinTableProps) => {
+export const FavoriteCoinTable = ({}: FavoriteCoinTableProps) => {
     let idToDisplay = 0;
-    const getChartData = (data: number[]): ChartDataPoint[] => {
-        const chartData = data.map((value: number, index: number) => ({ index, value }))
-        // console.log(chartData[0])
-        return chartData
-    }
-
-    const [isPriceDown, setIsPriceDown] = useState(true);
-
-    const [isVolumeDown, setIsVolumeDown] = useState(true);
-    const handleVolumeSortClick = (type: string) => {
-        setIsVolumeDown(!isVolumeDown)
-        onSort((prev) => ({ ...prev, sortBy: type }))
-    }
-
-    const [isMarketCapDown, setIsMarketCapDown] = useState(true);
-    const handleMarketCapSortClick = (type: string) => {
-        setIsMarketCapDown(!isMarketCapDown)
-        onSort((prev) => ({ ...prev, sortBy: type }))
-    }
 
     const favoriteContext = use(FavoriteContext);
-    const { favoriteCoins = [], addToFavoriteCoins } = favoriteContext || { favoriteCoins: [], addToFavoriteCoins: () => { } };
-    const handleAddToFavorite = (coinToAdd:CoinType) => {
-        addToFavoriteCoins(coinToAdd)
-    }
-
-    if (isLoading) {
-        return <CoinsTableSkeleton />
-    }
-    if (!CoinData || CoinData.length === 0) {
+    const { favoriteCoins = [] } = favoriteContext || { favoriteCoins: [], addToFavoriteCoins: () => { } };
+    console.log("coinsToShow in favorites table", favoriteCoins)
+    if (!favoriteCoins || favoriteCoins.length === 0) {
         return (
             <div className="flex items-center justify-center min-h-96">
                 <div className="text-center">
-                    <h2 className="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-2">No Data Available</h2>
-                    <p className="text-gray-500 dark:text-gray-400">No coins match your current filters. Try adjusting your search criteria.</p>
+                    <h2 className="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-2">No Favorite coins Available</h2>
+                    <p className="text-gray-500 dark:text-gray-400">No coins added to your favorites. Try adding coins to your favorites.</p>
                 </div>
             </div>
         )
     }
     return (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-            <table className="border-collapse">
+        <div className="min-h-screen flex items-start justify-center py-10 bg-gray-50 dark:bg-gray-900">
+            <div className="w-full max-w-5xl bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+                <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-4 text-center">My Favorite Coins</h2>
+                <div className="overflow-x-auto">
+                    <table className="border-collapse w-full">
                 <thead>
                     <tr className="bg-linear-to-r from-blue-50 to-blue-100 dark:from-gray-700 dark:to-gray-600 border-b-2 border-blue-200 dark:border-gray-500 sticky top-0">
-                        <th className="px-2 py-3 text-left text-xs font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wide">★</th>
                         <th className="px-2 py-3 text-left text-xs font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wide">#</th>
                         <th className="px-7 py-3 text-left text-xs font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wide">Coin</th>
-                        <th className="px-2 py-3 text-center text-xs font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wide"></th>
                         <th className="px-2 py-3 text-right text-xs font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wide cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                             <span className="flex items-center justify-end gap-1">
                                 Price
@@ -122,45 +86,15 @@ export const CoinTable = ({ CoinData, isLoading, onSort }: CoinTableProps) => {
                         <th className="px-2 py-3 text-right text-xs font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wide">1h %</th>
                         <th className="px-2 py-3 text-right text-xs font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wide">24h %</th>
                         <th className="px-2 py-3 text-right text-xs font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wide">7d %</th>
-                        <th className="px-2 py-3 text-right text-xs font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wide cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                            <span onClick={() => isVolumeDown ? handleVolumeSortClick("volume_asc") : handleVolumeSortClick("volume_desc")} className="flex items-center justify-end gap-1">
-                                24h Vol
-                                <FontAwesomeIcon icon={isVolumeDown ? faCaretDown : faCaretUp} size="sm" />
-                            </span>
-                        </th>
-                        <th className="px-2 py-3 text-right text-xs font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wide cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                            <span onClick={() => isMarketCapDown ? handleMarketCapSortClick("market_cap_asc") : handleMarketCapSortClick("market_cap_desc")} className="flex items-center justify-end gap-1">
-                                Market Cap
-                                <FontAwesomeIcon icon={isMarketCapDown ? faCaretDown : faCaretUp} size="sm" />
-                            </span>
-                        </th>
-                        <th className="px-2 py-3 text-right text-xs font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wide">7d Chart</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {!isLoading && CoinData.map((coinInfo: CoinType) =>
+                    { favoriteCoins.map((coinInfo: CoinType) =>
                     (
-                        <tr key={coinInfo.id} className="border-b border-gray-200 dark:border-gray-700 hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors duration-150">
-                            <td className="px-2 py-3 text-center">
-                                {(() => {
-                                    const isFav = favoriteCoins.some((coin: CoinType) => coin.id === coinInfo.id);
-                                    return (
-                                        <FontAwesomeIcon
-                                            icon={isFav ? faStarSolid : faStarRegular}
-                                            onClick={() => handleAddToFavorite(coinInfo)}
-                                            className={`cursor-pointer transition-colors ${isFav ? 'text-yellow-500 hover:text-yellow-600' : 'text-yellow-400 hover:text-yellow-500'}`}
-                                        />
-                                    )
-                                })()}
-                            </td>
+                        <tr className="bg-linear-to-r from-blue-50 to-blue-100 dark:from-gray-700 dark:to-gray-600 border-b-2 border-blue-200 dark:border-gray-500 sticky top-0">
                             <td className="px-2 py-3 text-sm font-semibold text-gray-600 dark:text-gray-300 w-12">{idToDisplay += 1}</td>
                             <td className="px-4 py-3 w-80">
                                 <Coin {...coinInfo} />
-                            </td>
-                            <td className="px-2 py-3 text-center">
-                                <button className="px-3 py-1 bg-white border-green-700 dark:bg-gray-500 hover:bg-green-400 dark:text-white text-green-600 text-xs font-semibold rounded-full transition-colors duration-200">
-                                    Buy
-                                </button>
                             </td>
                             <td className="px-2 py-3 text-right font-bold text-gray-900 dark:text-gray-100">{new Intl.NumberFormat("en-US", {
                                 style: "currency",
@@ -192,29 +126,12 @@ export const CoinTable = ({ CoinData, isLoading, onSort }: CoinTableProps) => {
                                     </span>
                                 </div>
                             </td>
-                            <td className="px-2 py-3 text-right text-sm font-semibold text-gray-900 dark:text-gray-100">{new Intl.NumberFormat("en-US", {
-                                style: "currency",
-                                currency: "USD",
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 0
-                            }).format(coinInfo.total_volume)}</td>
-                            <td className="px-2 py-3 text-right text-sm font-semibold text-gray-900 dark:text-gray-100">{new Intl.NumberFormat("en-US", {
-                                style: "currency",
-                                currency: "USD",
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 0
-                            }).format(coinInfo.market_cap)}</td>
-                            <td className="px-2 py-3 text-center">
-                                <div className="flex justify-center">
-                                    <LineChart width={100} height={40} data={getChartData(coinInfo.sparkline_in_7d.price)}>
-                                        <Line type="monotone" dataKey="value" dot={false} stroke={getStroke(coinInfo.price_change_percentage_7d_in_currency)} strokeWidth={2} />
-                                    </LineChart>
-                                </div>
-                            </td>
                         </tr>
                     ))}
                 </tbody>
-            </table>
+                    </table>
+                </div>
+            </div>
         </div>
     )
 }

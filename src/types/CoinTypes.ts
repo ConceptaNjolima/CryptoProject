@@ -29,3 +29,20 @@ export type FiltersProps = {
     onFilter: (filters: FiltersState | ((prev: FiltersState) => FiltersState)) => void;
     isLoading: boolean;
 };
+
+export type ChartDataPoint = {
+    index: number;
+    value: number;
+};
+
+export type SortFunction = (prevState: FiltersState) => FiltersState;
+
+export type CoinTableProps = {
+    CoinData: CoinType[];
+    isLoading: boolean;
+    onSort: (sortFn: SortFunction) => void;
+};
+
+export type FavoriteCoinTableProps = {
+    CoinData?: CoinType[];
+};

@@ -76,7 +76,7 @@ export const Filters = ({ onFilter, isLoading }: FiltersProps) => {
                             max={10000}
                         />
                     </Box>
-                    <button className="block w-full mb-1 p-2 bg-gray-200 rounded hover:bg-gray-300" type="submit" onClick={() => onFilter((prev: any) => ({ ...prev, filterType: "byPrice", lowerPriceFilterValue: priceValue[0], upperPriceFilterValue: priceValue[1] }))} >Filter By Price</button>
+                    <button className="block w-full mb-1 p-2 bg-gray-200 rounded hover:bg-gray-300" type="submit" onClick={() => onFilter((prev) => ({ ...prev, filterType: "byPrice", lowerPriceFilterValue: priceValue[0], upperPriceFilterValue: priceValue[1] }))} >Filter By Price</button>
                 </div>
                 <div>
                     <em className='float-left  text-gray-700 dark:text-gray-300 mb-2"'>By Volume</em>
@@ -92,7 +92,7 @@ export const Filters = ({ onFilter, isLoading }: FiltersProps) => {
                             max={1000000}
                         />
                     </Box>
-                    <button className="block w-full mb-1 p-2 bg-gray-200 rounded hover:bg-gray-300" type="submit" onClick={() => onFilter((prev: any) => ({ ...prev, filterType: "byVolume", lowerVolumeFilterValue: volumeValue[0], upperVolumeFilterValue: volumeValue[1] }))} >Filter By Volume</button>
+                    <button className="block w-full mb-1 p-2 bg-gray-200 rounded hover:bg-gray-300" type="submit" onClick={() => onFilter((prev) => ({ ...prev, filterType: "byVolume", lowerVolumeFilterValue: volumeValue[0], upperVolumeFilterValue: volumeValue[1] }))} >Filter By Volume</button>
                 </div>
                 <div>
                     <em className='float-left text-gray-700 dark:text-gray-300 mb-2"'>By MarketCap</em>
@@ -108,13 +108,13 @@ export const Filters = ({ onFilter, isLoading }: FiltersProps) => {
                             max={100000000}
                         />
                     </Box>
-                    <button className="block w-full mb-1 p-2 bg-gray-200 rounded hover:bg-gray-300" type="submit" onClick={() => onFilter((prev: any) => ({ ...prev, filterType: "byMarketCap", lowerMarketCapFilterValue: marketCapValue[0], upperMarketCapFilterValue: marketCapValue[1] }))} >Filter By Market Cap</button>
+                    <button className="block w-full mb-1 p-2 bg-gray-200 rounded hover:bg-gray-300" type="submit" onClick={() => onFilter((prev) => ({ ...prev, filterType: "byMarketCap", lowerMarketCapFilterValue: marketCapValue[0], upperMarketCapFilterValue: marketCapValue[1] }))} >Filter By Market Cap</button>
                 </div>
             </div>
             <div>
                 <em className='float-left  text-gray-700 dark:text-gray-300 mb-2"'>By 24 hr Trend</em>
-                <button className="block w-full mb-1 p-2 bg-gray-200 rounded hover:bg-gray-300" type="submit" onClick={() => onFilter((prev: any) => ({ ...prev, filterType: "Gainers24hr" }))}>Filter By 24 hr Increase</button>
-                <button className="block w-full mb-1 p-2 bg-gray-200 rounded hover:bg-gray-300" type="submit" onClick={() => onFilter((prev: any) => ({ ...prev, filterType: "Losers24hr" }))}>Filter By 24 hr Decrease</button>
+                <button className="block w-full mb-1 p-2 bg-gray-200 rounded hover:bg-gray-300" type="submit" onClick={() => onFilter((prev) => ({ ...prev, filterType: "Gainers24hr" }))}>Filter By 24 hr Increase</button>
+                <button className="block w-full mb-1 p-2 bg-gray-200 rounded hover:bg-gray-300" type="submit" onClick={() => onFilter((prev) => ({ ...prev, filterType: "Losers24hr" }))}>Filter By 24 hr Decrease</button>
             </div>
         </aside>
     )

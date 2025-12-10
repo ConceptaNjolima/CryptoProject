@@ -1,19 +1,31 @@
 import './App.css'
 import { ThemeProvider } from './context/ThemeProvide';
 import { MainPage } from './pages/MainPage'
-import { Header } from './components/Header';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { FavoriteProvider } from './context/FavoriteProvider';
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { FavoriteCoinTable } from './components/FavoriteCoinsTable';
+import { Header } from './components/Header';
 function App() {
   const queryClient = new QueryClient();
   return (
-    <QueryClientProvider client = {queryClient}>
-      <ThemeProvider>
+    <BrowserRouter>
+      <div>
         <Header />
-        <MainPage/>
-        <ReactQueryDevtools initialIsOpen={false} />
-      </ThemeProvider>
-    </QueryClientProvider>
+        <QueryClientProvider client={queryClient}>
+          <FavoriteProvider>
+            <ThemeProvider>
+              <Routes>
+                <Route path='/' element={<MainPage />} />
+                <Route path='/Favorites' element={<FavoriteCoinTable />} />
+              </Routes>
+              <ReactQueryDevtools initialIsOpen={false} />
+            </ThemeProvider>
+          </FavoriteProvider>
+        </QueryClientProvider>
+      </div>
+    </BrowserRouter>
   )
 }
 

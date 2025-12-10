@@ -1,13 +1,13 @@
 import { httpClient } from "./HttpClient";
 import { HttpService } from "./httpService";
-import type{ CoinType } from "../types/CoinTypes";
+import type { CoinType, FiltersState } from "../types/CoinTypes";
 
 export class CoinService extends HttpService{
     constructor(){
         super(httpClient)
     }
 
-    async getAllCoins(filters:any){
+    async getAllCoins(filters: FiltersState) {
         console.log("before get all coins",filters)
         let coinsUrl= `/markets?vs_currency=usd&price_change_percentage=1h,24h,7d&sparkline=true`;
         if(filters?.sortBy){
