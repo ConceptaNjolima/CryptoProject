@@ -18,7 +18,7 @@ const getStroke = (changeIn7day: number) => {
 
 const CoinsTableSkeleton = () => {
     return (
-        <div className="shadow animate-pulse">
+        <div className="shadow animate-pulse" data-testid="coins-table-skeleton">
             <table className="table-auto md:table-fixed w-full">
                 <thead>
                     <tr className="border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700">
@@ -88,7 +88,7 @@ export const CoinTable = ({ CoinData, isLoading, onSort }: CoinTableProps) => {
 
     const favoriteContext = use(FavoriteContext);
     const { favoriteCoins = [], addToFavoriteCoins } = favoriteContext || { favoriteCoins: [], addToFavoriteCoins: () => { } };
-    const handleAddToFavorite = (coinToAdd:CoinType) => {
+    const handleAddToFavorite = (coinToAdd: CoinType) => {
         addToFavoriteCoins(coinToAdd)
     }
 
